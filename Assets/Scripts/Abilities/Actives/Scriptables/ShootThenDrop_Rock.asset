@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c6e7e4287534e34e8d02dd77d4139ee, type: 3}
+  m_Name: ShootThenDrop_Rock
+  m_EditorClassIdentifier: 
+  cooldownTime: 0
+  bulletSpeed: 350
+  destroyTime: 0.7
+  ammo: 1
+  bulletPrefab: {fileID: 2460380422992588536, guid: 69dd81517e88ae44987677ea97c1ea04, type: 3}
+  dropPrefab: {fileID: 874191266557654417, guid: 5c3af9fd061c4c04cb325ce9cf67a576, type: 3}
+  toDrop: {fileID: 11400000, guid: 3bb788d921271d142bed3a4db6f2a519, type: 2}

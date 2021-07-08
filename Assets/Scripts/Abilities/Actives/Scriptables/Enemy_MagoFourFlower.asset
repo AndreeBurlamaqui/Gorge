@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627ac9cb36fb5c944a28f4dca338020a, type: 3}
+  m_Name: Enemy_MagoFourFlower
+  m_EditorClassIdentifier: 
+  cooldownTime: 1.4
+  bulletSpeed: 300
+  destroyTime: 0.6
+  ammo: 0
+  bulletPrefab: {fileID: 6295129730418479005, guid: 20c03f659a5a33949b495eb7f66aa127, type: 3}
+  pelletCount: 4
+  cooldownBetweenPellet: 0
+  angleRange: {x: 25, y: -25}

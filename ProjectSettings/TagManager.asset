@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Player Bullet
+  - Enemy
+  - LifePoint
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Enemy
+  - Water
+  - UI
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: AboveGround
+    uniqueID: 1368181073
+    locked: 0
+  - name: Player
+    uniqueID: 1845150531
+    locked: 0
+  - name: Chaser
+    uniqueID: 2417432833
+    locked: 0
+  - name: Lanceiro
+    uniqueID: 1117600683
+    locked: 0
+  - name: Magos
+    uniqueID: 3228234987
+    locked: 0
+  - name: AboveEverything
+    uniqueID: 1103638613
+    locked: 0
