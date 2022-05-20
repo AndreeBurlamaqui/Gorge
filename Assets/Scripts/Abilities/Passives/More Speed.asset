@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 099d34894ee0f404c8d30c61f171110c, type: 3}
   m_Name: More Speed
   m_EditorClassIdentifier: 
-  boostVariable: 0.05
+  boostVariable: 1.1

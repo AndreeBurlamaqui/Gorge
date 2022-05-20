@@ -10,10 +10,10 @@ public class ActiveAbilitySO : ScriptableObject
 
 
     /// <summary>
-    /// Variável que precisa ser chamada para atirar. Todo ScriptableObject vai ter um tiro único.
+    /// Shoot based on the current active ability
     /// </summary>
-    /// <param name="barrelPosition"> Aonde a bala irá ser instanciada</param>
-    /// <param name="direction">A direçao da bala, no script PlayerShooting é o mAngle</param>
+    /// <param name="barrelPosition"> Where the bullet will be instantiated</param>
+    /// <param name="direction">Direction of bullet in quaternion. Simple use is to just send the Transform.Rotation of the barrel</param>
     public virtual void Shoot(Transform barrelPosition, Quaternion direction) { }
 
     public virtual void OnDestroyEvent(Vector2 currentPosition) { }

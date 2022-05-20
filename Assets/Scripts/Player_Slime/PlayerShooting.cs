@@ -64,12 +64,14 @@ public class PlayerShooting : MonoBehaviour
 
     void UpdateAim()
     {
-        Vector3 dir = InputReader.GetAimDirection(aimRoot.localPosition);
-        //float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        float angle = Vector2.SignedAngle(Vector2.right, dir);
 
-        aimRoot.rotation = Quaternion.Euler(0, 0, angle);
-        //aimRoot.eulerAngles = new Vector3(0, 0, angle);
+        // Rotation
+        Vector2 dir = InputReader.GetAimDirection(aimRoot.position);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        //float angle = Vector2.SignedAngle(Vector2.right, dir);
+
+        //aimRoot.rotation = Quaternion.Euler(0, 0, angle);
+        aimRoot.eulerAngles = new Vector3(0, 0, angle);
     }
 
     IEnumerator ShootCooldown(float canShootTimer)

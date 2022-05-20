@@ -7,6 +7,6 @@ public class MoreSpeed : PassiveAbilitySO
 {
     public override void ApplyEffect()
     {
-        FindObjectOfType<Player_Movement>().CurrentSpeed += boostVariable;
+        FindObjectOfType<Player_Movement>().CurrentSpeed += (boostVariable * 0.1f);
     }
 }

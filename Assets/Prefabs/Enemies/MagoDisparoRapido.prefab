@@ -14672,6 +14672,7 @@ MonoBehaviour:
     _stateName: MagoShoot
     _assigned: 1
     _linkedAnimator: {fileID: 4335135097072554419}
+  offsetPosAim: 5
 --- !u!114 &4335135095031653029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34639,7 +34640,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5173562328796503998}
   m_LocalRotation: {x: -0, y: -0, z: 0.43797177, w: 0.8989888}
-  m_LocalPosition: {x: 0.05, y: 1.61, z: 0}
+  m_LocalPosition: {x: 0.05, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7690928834734353528}
@@ -34720,7 +34721,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7690928834259608226}
   m_LocalRotation: {x: -0, y: -0, z: -0.38268343, w: 0.92387956}
-  m_LocalPosition: {x: 0.13414216, y: 2.622254, z: 0}
+  m_LocalPosition: {x: 0.13414216, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7690928834734353528}
@@ -34749,8 +34750,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7690928834734353527}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.45, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6363397651550410319}
@@ -34758,4 +34759,4 @@ Transform:
   - {fileID: 5173562328796503985}
   m_Father: {fileID: 4335135097072554418}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
