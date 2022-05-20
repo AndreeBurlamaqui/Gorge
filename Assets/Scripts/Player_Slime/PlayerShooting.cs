@@ -9,61 +9,44 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private GameObject bulletPF;
     private InputMap _inputMap;
     [SerializeField] private bool isHoldShooting, canShoot = true;
-    private Stomach_Inventory si;
+    private PlayerController controller;
     public float shootTimerReductor = 0;
     public int extraDamage = 0;
     public GameObject muzzleFX;
 
-    private void Awake()
+    private void Start()
     {
-        _inputMap = new InputMap();
-        _inputMap.Action.Shoot.performed += OnShoot;
-        _inputMap.Action.Shoot.canceled += OnShoot;
-
-        si = GetComponent<Stomach_Inventory>();
-
+        controller = GetComponent<PlayerController>();
+        controller.actionReader.OnShootEvent += TryShootEvent;
     }
 
-    private void OnEnable()
+    private void TryShootEvent(bool isPerforming)
     {
-        _inputMap.Enable();
-    }
-    private void OnDisable()
-    {
-        _inputMap.Disable();
-    }
-
-    private void OnShoot(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed)
+        if (isPerforming)
         {
             if (!isHoldShooting)
                 isHoldShooting = true;
 
         }
-        
-        if (ctx.canceled)
-        {
+        else 
+        { 
             if (isHoldShooting)
                 isHoldShooting = false;
         }
     }
     void Update()
     {
-        ActiveAbilitySO bullet = si.shootingType;
+        ActiveAbilitySO bullet = controller.inventoryHandler.shootingType;
         if (bullet != null)
         {
             if (!aimTrigger.gameObject.activeSelf)
                 aimTrigger.gameObject.SetActive(true);
 
-            Vector2 dir = _inputMap.Action.MousePos.ReadValue<Vector2>() - (Vector2)Camera.main.WorldToScreenPoint(aimRoot.position);
-            float mAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            aimRoot.rotation = Quaternion.AngleAxis(mAngle - 90, Vector3.forward);
-
+            UpdateAim();
 
             if (isHoldShooting && canShoot)
             {
-                bullet.Shoot(aimTrigger, mAngle);
+                bullet.Shoot(aimTrigger, aimRoot.rotation);
                 muzzleFX.SetActive(true);
                 StartCoroutine(ShootCooldown(bullet.cooldownTime));
             }
@@ -77,6 +60,16 @@ public class PlayerShooting : MonoBehaviour
                 aimRoot.rotation = Quaternion.Euler(Vector3.zero);
             }
         }
+    }
+
+    void UpdateAim()
+    {
+        Vector3 dir = InputReader.GetAimDirection(aimRoot.localPosition);
+        //float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        float angle = Vector2.SignedAngle(Vector2.right, dir);
+
+        aimRoot.rotation = Quaternion.Euler(0, 0, angle);
+        //aimRoot.eulerAngles = new Vector3(0, 0, angle);
     }
 
     IEnumerator ShootCooldown(float canShootTimer)

@@ -14,7 +14,7 @@ public class ActiveAbilitySO : ScriptableObject
     /// </summary>
     /// <param name="barrelPosition"> Aonde a bala irá ser instanciada</param>
     /// <param name="direction">A direçao da bala, no script PlayerShooting é o mAngle</param>
-    public virtual void Shoot(Transform barrelPosition, float direction) { }
+    public virtual void Shoot(Transform barrelPosition, Quaternion direction) { }
 
     public virtual void OnDestroyEvent(Vector2 currentPosition) { }
     

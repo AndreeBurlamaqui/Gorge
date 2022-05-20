@@ -15,7 +15,7 @@ public class GeneralBullet : MonoBehaviour
     }
     void FixedUpdate()
     {
-        rb.velocity = transform.up * speed * Time.deltaTime * 2;
+        rb.velocity = transform.right * speed * Time.deltaTime * 2;
 
         destroyTimer -= Time.deltaTime;
 

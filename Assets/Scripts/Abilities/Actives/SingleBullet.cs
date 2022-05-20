@@ -6,10 +6,9 @@ using UnityEngine;
 public class SingleBullet : ActiveAbilitySO
 {
 
-    public override void Shoot(Transform barrelPosition, float direction)
+    public override void Shoot(Transform barrelPosition, Quaternion direction)
     {
-        GameObject bulletGO = Instantiate(bulletPrefab, barrelPosition.position, Quaternion.identity);
-        bulletGO.transform.rotation = Quaternion.AngleAxis(direction - 90f, Vector3.forward);
+        GameObject bulletGO = Instantiate(bulletPrefab, barrelPosition.position, direction);
 
         if (bulletGO.TryGetComponent(out GeneralBullet gb))
         {

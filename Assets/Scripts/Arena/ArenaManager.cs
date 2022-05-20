@@ -7,10 +7,13 @@ using TMPro;
 
 public class ArenaManager : MonoBehaviour
 {
+
+    [SerializeField] private RoundHandler roundHandler;
+
     private NavMeshSurface2d navMeshSurface;
     [SerializeField] private GameObject player, drop, lifePoint;
     [SerializeField] private Drop rockPickup;
-    [SerializeField] private GameObject[] enemies = new GameObject[5];
+
     public float Timer { get; private set; }
     public int Round { get; private set; }
 
@@ -26,6 +29,7 @@ public class ArenaManager : MonoBehaviour
 
     private void Start()
     {
+        // Drop the initial weapons
         for(int x = 0; x < Random.Range(5, 10); x++)
         {
             Vector2 randomDirection = (Vector2)transform.position + Random.insideUnitCircle * spawnerRadius;
@@ -34,7 +38,9 @@ public class ArenaManager : MonoBehaviour
 
             GameObject rock = Instantiate(drop, hit.position, Quaternion.identity);
             rock.GetComponent<Pickup>().dropSO = rockPickup;
-        }
+        } 
+
+
         StartNextRound();
         nextRoundTimer = nextRoundTimerMax;
     }
@@ -66,15 +72,18 @@ public class ArenaManager : MonoBehaviour
 
         roundText.text = "Round " + Round.ToString();
 
-        for (int x = 0; x < Mathf.Round(baseStartEnemies * (Round/2)); x++)
+
+        int[] allRoundEnemies = roundHandler.GetEnemiesForRound(Round);
+
+        foreach(int e in allRoundEnemies)
         {
-            Vector2 randomDirection = (Vector2)transform.position + Random.insideUnitCircle * spawnerRadius;
+            Vector2 randomSpawnPos = (Vector2)transform.position + Random.insideUnitCircle * spawnerRadius;
+            NavMesh.SamplePosition(randomSpawnPos, out NavMeshHit hit, spawnerRadius, NavMesh.AllAreas);
 
-            NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, spawnerRadius, NavMesh.AllAreas);
-
-            Instantiate(enemies[Random.Range(0, enemies.Length)], hit.position, Quaternion.identity);
+            roundHandler.SpawnEnemyAt(e, hit.position);
         }
 
+        // Each pair round, spawn life points
         if (Round % 2 == 0)
         {
             for (int x = 0; x < Mathf.Round(Round / 4); x++)

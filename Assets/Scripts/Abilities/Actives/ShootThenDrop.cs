@@ -7,7 +7,7 @@ public class ShootThenDrop : ActiveAbilitySO
 {
     public GameObject dropPrefab;
     public Drop toDrop;
-    public override void Shoot(Transform barrelPosition, float direction)
+    public override void Shoot(Transform barrelPosition, Quaternion direction)
     {
         if (ammo == 1)
             FindObjectOfType<Stomach_Inventory>().RemoveActive();
@@ -15,8 +15,7 @@ public class ShootThenDrop : ActiveAbilitySO
         if (ammo > 0)
         {
 
-            GameObject bulletGO = Instantiate(bulletPrefab, barrelPosition.position, Quaternion.identity);
-            bulletGO.transform.rotation = Quaternion.AngleAxis(direction - 90f, Vector3.forward);
+            GameObject bulletGO = Instantiate(bulletPrefab, barrelPosition.position, direction);
 
             if (bulletGO.TryGetComponent(out GeneralBullet gb))
             {

@@ -28,7 +28,7 @@ public class AttackWithinRange : MonoBehaviour
 
             if (canShoot)
             {
-                shootingType.Shoot(triggerPosition, mAngle);
+                shootingType.Shoot(triggerPosition, rootTrigger.rotation);
                 StartCoroutine(ShootCooldown(shootingType.cooldownTime));
 
                 muzzleFX.SetActive(true);

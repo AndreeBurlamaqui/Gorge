@@ -6,11 +6,13 @@ using UnityEngine.InputSystem;
 
 public class Player_Movement : MonoBehaviour
 {
+    PlayerController controller;
     public GameObject eye;
 
     [Header("Walk")]
     public bool canMove = true;
     public float baseSpeed, maxNavRayStepDistance;
+    bool isMoving = false;
 
     [Header("Dash")]
     public bool canDash = true;
@@ -24,81 +26,43 @@ public class Player_Movement : MonoBehaviour
     private Animator anim;
 
 
-    private void Awake()
+    private void Start()
     {
-        _inputMap = new InputMap();
-        _inputMap.Action.Dash.performed += ctx => OnDash();
-
         anim = GetComponentInChildren<Animator>();
         col = GetComponent<Collider2D>();
+        controller = GetComponent<PlayerController>();
+
+        controller.actionReader.OnMoveEvent += TryMoveEvent;
+        controller.actionReader.OnDashEvent += TryDashEvent;
     }
 
-    private void OnEnable()
+    public void TryMoveEvent(Vector3 direction, bool isPerforming)
     {
-        _inputMap.Enable();
-    }
-    private void OnDisable()
-    {
-        _inputMap.Disable();
-    }
-
-    public Vector2 GetMoveDirection()
-    {
-        Vector2 moveDir = _inputMap.Action.Movement.ReadValue<Vector2>();
-        clampSpeed = Mathf.Clamp(moveDir.magnitude, 0f, 1f);
-        moveDir.Normalize();
-
-        return moveDir;
+        clampSpeed = Mathf.Clamp(direction.magnitude, 0f, 1f);
+        direction.Normalize();
+        currentMoveDir = direction;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_inputMap.Action.Movement.ReadValue<Vector2>().magnitude > 0.1f)
+
+        ApplyMove();
+
+        if (currentMoveDir.magnitude > 0.1f)
         {
-            currentMoveDir = GetMoveDirection();
-            if (canMove)
-            {
-                Vector2 step = (Vector2)transform.position + currentMoveDir * Time.deltaTime * CurrentSpeed;
-
-                bool isValidStep = NavMesh.SamplePosition(step, out NavMeshHit hit, maxNavRayStepDistance, NavMesh.AllAreas);
-
-                if (isValidStep)
-                {
-                    if (currentMoveDir.magnitude >= 1)
-                    {
-                        //rb.velocity = moveDir * clampSpeed * baseSpeed;
-                        if ((transform.position - hit.position).magnitude >= .02f)
-                        {
-                            transform.position = (Vector2)hit.position;
-
-                            if (!anim.GetBool("isWalking"))
-                                anim.SetBool("isWalking", true);
-                        }
-                    }
-
-                }
-                else
-                {
-                    if (anim.GetBool("isWalking"))
-                        anim.SetBool("isWalking", false);
-                }
-
-            }
-
             if(currentMoveDir.x != 0)
                 anim.SetFloat("Blend", currentMoveDir.x);
 
-
             if (currentMoveDir.y >= 0.1f)
             {
+                // Looking up
                 eye.SetActive(false);
-                //up
             }
             else
             {
+                // Looking down
                 eye.SetActive(true);
-                //down
             }
 
         }
@@ -111,13 +75,47 @@ public class Player_Movement : MonoBehaviour
 
     }
 
-    public void Moving()
+
+    public void ApplyMove()
     {
-        canMove = !canMove;
+
+        if (IsValidSituation())
+        {
+            isMoving = true;
+
+            Vector2 step = (Vector2)transform.position + currentMoveDir * Time.deltaTime * CurrentSpeed;
+
+            bool isValidStep = NavMesh.SamplePosition(step, out NavMeshHit hit, maxNavRayStepDistance, NavMesh.AllAreas);
+
+            if (isValidStep)
+            {
+                if (currentMoveDir.magnitude >= 1)
+                {
+                    //rb.velocity = moveDir * clampSpeed * baseSpeed;
+                    if ((transform.position - hit.position).magnitude >= .02f)
+                    {
+                        transform.position = (Vector2)hit.position;
+
+                        if (!anim.GetBool("isWalking"))
+                            anim.SetBool("isWalking", true);
+                    }
+                }
+
+            }
+            else
+            {
+                if (anim.GetBool("isWalking"))
+                    anim.SetBool("isWalking", false);
+            }
+        }
     }
 
-    private void OnDash()
+
+    private void TryDashEvent(bool isPerforming)
     {
+        if (!isPerforming)
+            return;
+
         if (canDash)
         {
             Vector2 step = (Vector2)transform.position + currentMoveDir * dashSpeed;
@@ -169,5 +167,13 @@ public class Player_Movement : MonoBehaviour
             return movSpeed;
         }
         set => movSpeed = baseSpeed + value;
+    }
+
+    public bool IsValidSituation()
+    {
+        if (!canMove)
+            return false;
+
+        return true;
     }
 }

@@ -2,7 +2,7 @@
     "name": "InputMap",
     "maps": [
         {
-            "name": "Action",
+            "name": "Gameplay",
             "id": "c72533d9-139d-4d52-9f04-2ac4c24e2214",
             "actions": [
                 {
@@ -11,15 +11,8 @@
                     "id": "2fc88bef-6ac4-4a84-abef-16278634c21d",
                     "expectedControlType": "Vector2",
                     "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "MousePos",
-                    "type": "Value",
-                    "id": "7b47e3d1-36ac-4752-9c3e-e1e9a4e71996",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Shoot",
@@ -27,7 +20,8 @@
                     "id": "0fe19151-b103-433b-ba32-9dd60a34658d",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
                 },
                 {
                     "name": "Dash",
@@ -35,21 +29,20 @@
                     "id": "86ec3a42-1946-4f20-8961-483920211ba9",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Aim",
+                    "type": "PassThrough",
+                    "id": "782982ec-6a10-4c81-9321-edd1f563e20f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "2a023065-8095-473b-89ed-901038e6934c",
-                    "path": "<Mouse>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Slime",
-                    "action": "MousePos",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "09524130-f048-48ed-8e61-4c276d468a9e",
@@ -126,6 +119,17 @@
                     "action": "Dash",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2adbcfa7-e5df-44cb-bd19-db511f8827e7",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
@@ -147,7 +151,7 @@
                 },
                 {
                     "devicePath": "<Mouse>",
-                    "isOptional": true,
+                    "isOptional": false,
                     "isOR": false
                 }
             ]
