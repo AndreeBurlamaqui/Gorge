@@ -19,4 +19,5 @@ MonoBehaviour:
   bulletPrefab: {fileID: 3574184060095884865, guid: 35cdb667d8636db48a5ed416dabca48a, type: 3}
   pelletCount: 15
   cooldownBetweenPellet: 0
+  isRandomPellets: 0
   angleRange: {x: 360, y: -360}

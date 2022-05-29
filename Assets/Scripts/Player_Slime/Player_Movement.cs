@@ -6,39 +6,79 @@ using UnityEngine.InputSystem;
 
 public class Player_Movement : MonoBehaviour
 {
+
+    #region FIELDS
+
     PlayerController controller;
     public GameObject eye;
 
     [Header("Walk")]
     public bool canMove = true;
     public float baseSpeed, maxNavRayStepDistance;
+    public float extraSpeed;
     bool isMoving = false;
 
     [Header("Dash")]
     public bool canDash = true;
+    public bool isDashing = false;
     public float maxNavRayDashDistance, dashSpeed, dashTimer;
     public LayerMask enemyLayer;
+    Coroutine dashRoutine;
 
-    private InputMap _inputMap;
     private Vector2 currentMoveDir;
-    private float clampSpeed, movSpeed;
     private Collider2D col;
     private Animator anim;
+    private Transform visualT;
 
+    #endregion
 
-    private void Start()
+    #region PROPERTIES
+
+    public float CurrentSpeed
     {
-        anim = GetComponentInChildren<Animator>();
-        col = GetComponent<Collider2D>();
-        controller = GetComponent<PlayerController>();
+        get
+        {
+            return extraSpeed + baseSpeed;
+        }
+    }
+
+    public bool IsValidSituation()
+    {
+        if (!canMove || isDashing)
+            return false;
+
+        return true;
+    }
+
+    #endregion
+
+    private void OnEnable()
+    {
+        if (anim == null)
+            anim = GetComponentInChildren<Animator>();
+
+        if (visualT == null)
+            visualT = anim.transform;
+
+        if (col == null)
+            col = GetComponent<Collider2D>();
+
+        if (controller == null)
+            controller = GetComponent<PlayerController>();
 
         controller.actionReader.OnMoveEvent += TryMoveEvent;
         controller.actionReader.OnDashEvent += TryDashEvent;
     }
 
+    private void OnDisable()
+    {
+
+        controller.actionReader.OnMoveEvent -= TryMoveEvent;
+        controller.actionReader.OnDashEvent -= TryDashEvent;
+    }
+
     public void TryMoveEvent(Vector3 direction, bool isPerforming)
     {
-        clampSpeed = Mathf.Clamp(direction.magnitude, 0f, 1f);
         direction.Normalize();
         currentMoveDir = direction;
     }
@@ -51,19 +91,21 @@ public class Player_Movement : MonoBehaviour
 
         if (currentMoveDir.magnitude > 0.1f)
         {
-            if(currentMoveDir.x != 0)
-                anim.SetFloat("Blend", currentMoveDir.x);
+            // Horizontal Flip
+            if (currentMoveDir.x != 0)
+                FlipVisuals(currentMoveDir.x);
 
-            if (currentMoveDir.y >= 0.1f)
-            {
-                // Looking up
-                eye.SetActive(false);
-            }
-            else
-            {
-                // Looking down
-                eye.SetActive(true);
-            }
+            // Vertical Flip
+            //if (currentMoveDir.y >= 0.1f)
+            //{
+            //    // Looking up
+            //    eye.SetActive(false);
+            //}
+            //else
+            //{
+            //    // Looking down
+            //    eye.SetActive(true);
+            //}
 
         }
         else
@@ -91,7 +133,6 @@ public class Player_Movement : MonoBehaviour
             {
                 if (currentMoveDir.magnitude >= 1)
                 {
-                    //rb.velocity = moveDir * clampSpeed * baseSpeed;
                     if ((transform.position - hit.position).magnitude >= .02f)
                     {
                         transform.position = (Vector2)hit.position;
@@ -110,6 +151,7 @@ public class Player_Movement : MonoBehaviour
         }
     }
 
+    #region DASH ABILITY
 
     private void TryDashEvent(bool isPerforming)
     {
@@ -118,7 +160,10 @@ public class Player_Movement : MonoBehaviour
 
         if (canDash)
         {
+
             Vector2 step = (Vector2)transform.position + currentMoveDir * dashSpeed;
+            
+            /*
 
             //RaycastHit2D enemies = Physics2D.Raycast(transform.position, currentMoveDir, maxNavRayDashDistance *2f, enemyLayer);
 
@@ -143,8 +188,23 @@ public class Player_Movement : MonoBehaviour
                 StartCoroutine(DashCooldown());
 
             }
+            */
 
+            if (dashRoutine != null)
+                StopCoroutine(dashRoutine);
+
+            dashRoutine = StartCoroutine(
+                MovementModule.DashByTimer(gameObject, InputReader.LastMoveValue, dashTimer, dashSpeed, 
+                maxNavRayDashDistance, enemyLayer, FinishedDash));
+
+            isDashing = true;
         }
+    }
+
+    private void FinishedDash()
+    {
+        isDashing = false;
+        StartCoroutine(DashCooldown());
     }
 
     IEnumerator DashCooldown()
@@ -152,28 +212,23 @@ public class Player_Movement : MonoBehaviour
         canDash = false;
         yield return new WaitForSeconds(dashTimer);
         canDash = true;
-        
     }
 
-    public float CurrentSpeed
+    #endregion
+
+    /// <summary>
+    /// Flip visuals based on a target x-axis direction
+    /// </summary>
+    public void FlipVisuals(float targetDir)
     {
-        get
-        {
-            if(movSpeed <= 0)
-            {
-                movSpeed = baseSpeed;
-            }
+        Vector3 localScale = visualT.localScale;
+        bool targetRightFlip = targetDir > 0;
+        bool localRightFlip = Mathf.Sign(localScale.x) == -1;
 
-            return movSpeed;
-        }
-        set => movSpeed = baseSpeed + value;
-    }
+        // Is already flipped?
+        if (targetRightFlip == localRightFlip)
+            return; // No need to flip again
 
-    public bool IsValidSituation()
-    {
-        if (!canMove)
-            return false;
-
-        return true;
+        visualT.localScale = new Vector3(localScale.x * -1, localScale.y, localScale.z);
     }
 }

@@ -8,7 +8,12 @@ public class MoreDamage : PassiveAbilitySO
     public override void ApplyEffect()
     {
 
-        FindObjectOfType<PlayerShooting>().extraDamage += (int)boostVariable;
+        Player.ShootingHandler.extraDamage += (int)boostVariable;
 
+    }
+
+    public override void ResetEffect()
+    {
+        Player.ShootingHandler.extraDamage = 0;
     }
 }

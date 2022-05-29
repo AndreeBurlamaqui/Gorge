@@ -14,10 +14,17 @@ public class PlayerShooting : MonoBehaviour
     public int extraDamage = 0;
     public GameObject muzzleFX;
 
-    private void Start()
+    private void OnEnable()
     {
-        controller = GetComponent<PlayerController>();
+        if(controller == null)
+            controller = GetComponent<PlayerController>();
+    
         controller.actionReader.OnShootEvent += TryShootEvent;
+    }
+
+    private void OnDisable()
+    {
+        controller.actionReader.OnShootEvent -= TryShootEvent;
     }
 
     private void TryShootEvent(bool isPerforming)
@@ -36,7 +43,7 @@ public class PlayerShooting : MonoBehaviour
     }
     void Update()
     {
-        ActiveAbilitySO bullet = controller.inventoryHandler.shootingType;
+        ActiveAbilitySO bullet = controller.InventoryHandler.shootingType;
         if (bullet != null)
         {
             if (!aimTrigger.gameObject.activeSelf)

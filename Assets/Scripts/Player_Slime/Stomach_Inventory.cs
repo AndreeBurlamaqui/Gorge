@@ -27,7 +27,6 @@ public class Stomach_Inventory : MonoBehaviour
     {
         hm = GetComponent<HealthManager>();
         lifeHearts = GetComponentsInChildren<Image>();
-        hm.OnHitEvent.AddListener(HitLifeHeart);
     }
 
     
@@ -79,53 +78,22 @@ public class Stomach_Inventory : MonoBehaviour
         {
             if (passives[x] != null)
             {
+                // First reset in case we already have something buffed up    
+                passives[x].ResetEffect();
+            }
 
-                    
+        }
+
+        for (int x = 0; x < passives.Length; x++)
+        {
+            if (passives[x] != null)
+            {
+                // Now apply the effect
                 passives[x].ApplyEffect();
             }
 
         }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("LifePoint"))
-        {
-            if (hm.currentLife < hm.maxLife)
-            {
-                HealLifeHearts();
-                Destroy(collision.gameObject);
-            }
-        }
 
     }
 
-    private void HitLifeHeart()
-    {
-        for (int x = hm.maxLife+1; x > hm.currentLife; x--)
-        {
-            lifeHearts[x].enabled = false;
-
-            if (hm.currentLife <= 0)
-                UnityEngine.SceneManagement.SceneManager.LoadScene(gameObject.scene.name);
-        }
-    }
-
-    private void HealLifeHearts()
-    {
-        healFX.SetActive(true);
-
-        foreach(Image i in lifeHearts)
-        {
-            //HEAL ONCE
-            //if (!i.enabled)
-            //{
-            //    i.enabled = true;
-            //    break;
-            //}
-
-            //HEAL EVERYONE
-            i.enabled = true;
-        }
-    }
 }

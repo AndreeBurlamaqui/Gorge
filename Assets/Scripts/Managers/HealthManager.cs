@@ -15,7 +15,7 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private AnimationStateReference OnDeathAnimation;
     public int maxLife;
     [SerializeField][ReadOnly] public int currentLife;
-    [SerializeField] private GameObject deathSparkleFX, hitSparkleFX;
+    [SerializeField] private GameObject deathFX, hitFX;
     public float knockbackForce, knockbackDuration;
 
     private Collider2D col;
@@ -24,25 +24,28 @@ public class HealthManager : MonoBehaviour
     [SerializeField] private bool isResting = false;
     public bool isDead = false;
 
-
-    [SerializeField] public UnityEvent OnHitEvent;
+    /// <summary>
+    /// Event that will send the <see cref="maxLife"/> and <see cref="currentLife"/> when entity is hit
+    /// </summary>
+    [SerializeField] public UnityEvent<int,int> OnHitEvent;
     [SerializeField] public UnityEvent OnDeathEvent;
     private PlayerShooting playerShoot;
 
-    //HUD
-    public Slider heathSlider;
-    private void Awake()
-    {
-
-    }
     private void Start()
     {
         currentLife = maxLife;
         anim = GetComponent<Animator>();
-        col = GetComponent<Collider2D>();
         col.isTrigger = true;
 
         
+    }
+
+    private void OnEnable()
+    {
+        if(col == null)
+            col = GetComponent<Collider2D>();
+    
+        col.enabled = true;
     }
 
     public void ApplyHurt(int howHurt = 0)
@@ -57,7 +60,6 @@ public class HealthManager : MonoBehaviour
                 {
                     OnHurtAnimation.Play();
                 }
-
             }
         }
         else
@@ -68,13 +70,12 @@ public class HealthManager : MonoBehaviour
             {
                 OnHurtAnimation.Play();
             }
-
         }
 
-        if (hitSparkleFX != null)
-            hitSparkleFX.SetActive(true);
+        if (hitFX != null)
+            hitFX.SetActive(true);
 
-        OnHitEvent.Invoke();
+        OnHitEvent.Invoke(maxLife, currentLife);
 
         
         CheckDeath();
@@ -86,10 +87,8 @@ public class HealthManager : MonoBehaviour
         //    Instantiate(deathSparkleFX, transform.position, Quaternion.identity, transform);
 
         yield return new WaitForSeconds(timeToDestroy);
-        OnDeathEvent.Invoke();
 
-        Destroy(gameObject);
-        
+        OnDeathEvent.Invoke();        
     }
 
     private void CheckDeath()
@@ -110,11 +109,8 @@ public class HealthManager : MonoBehaviour
             }
 
             isDead = true;
-            
-            GetComponent<Collider2D>().enabled = false;
-            
 
-
+            col.enabled = false;
         }
     }
 

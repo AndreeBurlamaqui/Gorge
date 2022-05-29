@@ -86,15 +86,13 @@ public class ArenaManager : MonoBehaviour
         // Each pair round, spawn life points
         if (Round % 2 == 0)
         {
-            for (int x = 0; x < Mathf.Round(Round / 4); x++)
-            {
-                Vector2 randomDirection = (Vector2)transform.position + Random.insideUnitCircle * spawnerRadius;
+            Vector2 randomDirection = (Vector2)transform.position + Random.insideUnitCircle * spawnerRadius;
 
-                NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, spawnerRadius, NavMesh.AllAreas);
+            NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, spawnerRadius, NavMesh.AllAreas);
 
-                Instantiate(lifePoint, hit.position, Quaternion.identity);
-            }
+            Instantiate(lifePoint, hit.position, Quaternion.identity);
         }
+
 
 
     }

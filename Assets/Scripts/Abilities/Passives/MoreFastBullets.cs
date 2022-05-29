@@ -7,6 +7,12 @@ public class MoreFastBullets : PassiveAbilitySO
 {
     public override void ApplyEffect()
     {
-        FindObjectOfType<PlayerShooting>().shootTimerReductor += boostVariable;
+        Player.ShootingHandler.shootTimerReductor += boostVariable;
+    }
+
+    public override void ResetEffect()
+    {
+
+        Player.ShootingHandler.shootTimerReductor = 0;
     }
 }

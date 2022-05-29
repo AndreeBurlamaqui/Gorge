@@ -14684,6 +14684,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 361457178969070829}
+  - component: {fileID: -6869400551048125724}
   - component: {fileID: 361457178969070830}
   - component: {fileID: 8111692411886583143}
   - component: {fileID: 361457178969070831}
@@ -14713,6 +14714,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-6869400551048125724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361457178969070827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c5c8d12c45861d448f1fcc7e43cf121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &361457178969070830
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -14836,8 +14849,8 @@ MonoBehaviour:
     _linkedAnimator: {fileID: 361457179927064569}
   maxLife: 4
   currentLife: 0
-  deathSparkleFX: {fileID: 361457178585904679}
-  hitSparkleFX: {fileID: 361457178585904679}
+  deathFX: {fileID: 0}
+  hitFX: {fileID: 0}
   knockbackForce: 2
   knockbackDuration: 0.7
   restingTimerMax: 0.3
@@ -14848,8 +14861,19 @@ MonoBehaviour:
       m_Calls: []
   OnDeathEvent:
     m_PersistentCalls:
-      m_Calls: []
-  heathSlider: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: -6869400551048125724}
+        m_TargetAssemblyTypeName: EnemyController, Assembly-CSharp
+        m_MethodName: Death
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &361457178969070826
 MonoBehaviour:
   m_ObjectHideFlags: 0

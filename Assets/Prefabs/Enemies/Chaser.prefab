@@ -143,6 +143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7925775288343788123}
+  - component: {fileID: -226498428165758989}
   - component: {fileID: 7925775288343788120}
   - component: {fileID: 7925775288343788121}
   - component: {fileID: 7925775288343788126}
@@ -171,6 +172,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-226498428165758989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7925775288343788125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c5c8d12c45861d448f1fcc7e43cf121, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &7925775288343788120
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -213,7 +226,6 @@ MonoBehaviour:
   stayHide: 0
   sightRange: 8
   stayFarMultiplier: 1
-  hideShowDuration: 0
   canWalk: 1
   OnSightEvent:
     m_PersistentCalls:
@@ -221,7 +233,6 @@ MonoBehaviour:
   LostSightEvent:
     m_PersistentCalls:
       m_Calls: []
-  renderers: []
 --- !u!61 &7925775288343788126
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -272,8 +283,8 @@ MonoBehaviour:
     _linkedAnimator: {fileID: 7925775287645276495}
   maxLife: 12
   currentLife: 0
-  deathSparkleFX: {fileID: 7925775288986439825}
-  hitSparkleFX: {fileID: 7925775288986439825}
+  deathFX: {fileID: 0}
+  hitFX: {fileID: 0}
   knockbackForce: 2
   knockbackDuration: 0.7
   restingTimerMax: 0.3
@@ -284,8 +295,19 @@ MonoBehaviour:
       m_Calls: []
   OnDeathEvent:
     m_PersistentCalls:
-      m_Calls: []
-  heathSlider: {fileID: 0}
+      m_Calls:
+      - m_Target: {fileID: -226498428165758989}
+        m_TargetAssemblyTypeName: EnemyController, Assembly-CSharp
+        m_MethodName: Death
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7925775288343788124
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -136,5 +136,5 @@ Material:
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _TintColor: {r: 0.20619437, g: 0.25685507, b: 0.3018868, a: 1}
+    - _TintColor: {r: 0.21026166, g: 0.31739497, b: 0.4245283, a: 1}
   m_BuildTextureStacks: []
